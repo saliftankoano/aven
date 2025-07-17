@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { AvenCard } from "./ui/AvenCard";
 
 export function HeroSection() {
   return (
@@ -10,7 +11,7 @@ export function HeroSection() {
           {/* Left Content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold text-black leading-tight">
+              <h1 className="text-4xl md:text-[55px] font-bold text-black leading-tight eb-garamond-regular">
                 Credit card in the front.
                 <br />
                 Home equity in the back.
@@ -20,23 +21,23 @@ export function HeroSection() {
             {/* Features List */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-black rounded-full"></span>
+                <span className="w-2 h-2 bg-black"></span>
                 <span className="text-lg">7.49 – 14.99% Var. APR¹</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-black rounded-full"></span>
+                <span className="w-2 h-2 bg-black"></span>
                 <span className="text-lg">2% Unlimited Cash Back¹</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-black rounded-full"></span>
+                <span className="w-2 h-2 bg-black"></span>
                 <span className="text-lg">Up To $250,000 Limit</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-black rounded-full"></span>
+                <span className="w-2 h-2 bg-black"></span>
                 <span className="text-lg">Starting at $0 To Get A Card</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-black rounded-full"></span>
+                <span className="w-2 h-2 bg-black"></span>
                 <span className="text-lg">As Fast As 15 Minutes</span>
               </div>
             </div>
@@ -98,18 +99,8 @@ export function HeroSection() {
           </div>
 
           {/* Right Content - Credit Card Image */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative">
-              <div className="w-80 h-48 bg-gradient-to-br from-gray-800 to-black rounded-2xl shadow-2xl transform rotate-12">
-                <div className="absolute top-6 left-6 text-white">
-                  <div className="text-lg font-bold">Aven</div>
-                </div>
-                <div className="absolute bottom-6 right-6">
-                  <div className="text-white text-sm opacity-80">VISA</div>
-                </div>
-              </div>
-              <div className="w-80 h-48 bg-white rounded-2xl shadow-lg absolute -top-4 -left-4 -z-10"></div>
-            </div>
+          <div className="flex justify-center lg:justify-end -mt-[40%]">
+            <AvenCard />
           </div>
         </div>
       </div>
