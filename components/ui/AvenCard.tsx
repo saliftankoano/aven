@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function AvenCard() {
   return (
     <div className="relative">
@@ -33,7 +35,7 @@ export function AvenCard() {
         </div>
         <div className="absolute bottom-6 right-6">
           <div className="text-white text-sm opacity-80">
-            <img src="/visa.webp" alt="VISA" className="w-15 h-5" />
+            <Image src="/visa.webp" alt="VISA" className="w-15 h-5" />
           </div>
         </div>
       </div>
