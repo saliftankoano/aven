@@ -63,7 +63,7 @@ export function HeroSection() {
 
               <p className="text-xs text-gray-500 leading-relaxed">
                 By providing your number, you consent to automated or manual
-                marketing messages & to Aven's Terms of Service and Privacy
+                marketing messages & to Aven&apos;s Terms of Service and Privacy
                 Policy. Msg freq may vary. Msg&data rates may apply. Reply HELP
                 for help or STOP to opt-out. Consent to marketing messages is
                 not required for any purchase.
