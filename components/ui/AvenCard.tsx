@@ -35,7 +35,7 @@ export function AvenCard() {
         </div>
         <div className="absolute bottom-6 right-6">
           <div className="text-white text-sm opacity-80">
-            <Image src="/visa.webp" alt="VISA" className="w-15 h-5" />
+            <Image src="/visa.webp" alt="VISA" width={60} height={20} />
           </div>
         </div>
       </div>
