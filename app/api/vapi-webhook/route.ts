@@ -5,7 +5,48 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("Received VAPI webhook:", JSON.stringify(body, null, 2));
 
-    // Handle tool calls - VAPI uses message.type: "tool-calls"
+    if (body.query) {
+      console.log("Direct query format detected:", body.query);
+
+      try {
+        const searchResponse = await fetch(
+          `${
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000"
+              : process.env.NEXT_PUBLIC_BASE_URL
+          }/api/knowledge-search`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query: body.query }),
+          }
+        );
+
+        const searchData = await searchResponse.json();
+        console.log("Search response:", searchData);
+
+        if (searchData.success) {
+          const result = searchData.context || "No relevant information found";
+          console.log("Returning result:", result);
+          return NextResponse.json({ result });
+        } else {
+          console.log("Search failed, returning error message");
+          return NextResponse.json({
+            result:
+              "Sorry, I encountered an error while searching the knowledge base",
+          });
+        }
+      } catch (fetchError) {
+        console.error("Error fetching from knowledge search:", fetchError);
+        return NextResponse.json({
+          result: "Sorry, I encountered a technical error while searching",
+        });
+      }
+    }
+
+    // Handle tool calls - message.type: "tool-calls"
     if (body.message && body.message.type === "tool-calls") {
       const { toolCallList } = body.message;
       console.log("Processing tool calls:", toolCallList);
@@ -89,10 +130,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ received: true });
     }
 
-    // If it's not a message-wrapped event, it might be a direct call
-    console.log("No message wrapper found, treating as direct call");
+    // If no recognizable format, return a generic response
+    console.log("No recognized format, returning generic response");
     return NextResponse.json({
-      received: true,
+      result: "Webhook received but no recognized format found",
     });
   } catch (error) {
     console.error("Error processing VAPI webhook:", error);
