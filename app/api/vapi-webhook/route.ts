@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface SearchResult {
+  text: string;
+  score: number;
+  source: string;
+  chunkIndex: number;
+}
+
+interface SearchResponse {
+  success: boolean;
+  context: string;
+  results: SearchResult[];
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -25,7 +38,7 @@ export async function POST(req: NextRequest) {
           }
         );
 
-        const searchData = await searchResponse.json();
+        const searchData: SearchResponse = await searchResponse.json();
         console.log("Search response:", searchData);
 
         if (searchData.success) {
@@ -35,9 +48,9 @@ export async function POST(req: NextRequest) {
           if (!result && searchData.results && searchData.results.length > 0) {
             // Get the top 2-3 most relevant results
             const topResults = searchData.results
-              .filter((r: any) => r.score > 0.4) // Only use results with good relevance scores
+              .filter((r: SearchResult) => r.score > 0.4) // Only use results with good relevance scores
               .slice(0, 3)
-              .map((r: any) => r.text)
+              .map((r: SearchResult) => r.text)
               .join("\n\n");
 
             result = topResults || "No relevant information found";
@@ -99,7 +112,7 @@ export async function POST(req: NextRequest) {
               }
             );
 
-            const searchData = await searchResponse.json();
+            const searchData: SearchResponse = await searchResponse.json();
             console.log("Search response:", searchData);
 
             if (searchData.success) {
@@ -113,9 +126,9 @@ export async function POST(req: NextRequest) {
               ) {
                 // Get the top 2-3 most relevant results
                 const topResults = searchData.results
-                  .filter((r: any) => r.score > 0.4) // Only use results with good relevance scores
+                  .filter((r: SearchResult) => r.score > 0.4) // Only use results with good relevance scores
                   .slice(0, 3)
-                  .map((r: any) => r.text)
+                  .map((r: SearchResult) => r.text)
                   .join("\n\n");
 
                 result = topResults || "No relevant information found";
