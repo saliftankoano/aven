@@ -5,6 +5,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("Received VAPI webhook:", JSON.stringify(body, null, 2));
 
+    // Handle the simple format that VAPI is actually sending
     if (body.query) {
       console.log("Direct query format detected:", body.query);
 
@@ -28,7 +29,24 @@ export async function POST(req: NextRequest) {
         console.log("Search response:", searchData);
 
         if (searchData.success) {
-          const result = searchData.context || "No relevant information found";
+          let result = searchData.context || "";
+
+          // If context is empty but we have results, construct response from results
+          if (!result && searchData.results && searchData.results.length > 0) {
+            // Get the top 2-3 most relevant results
+            const topResults = searchData.results
+              .filter((r: any) => r.score > 0.4) // Only use results with good relevance scores
+              .slice(0, 3)
+              .map((r: any) => r.text)
+              .join("\n\n");
+
+            result = topResults || "No relevant information found";
+          }
+
+          if (!result) {
+            result = "No relevant information found";
+          }
+
           console.log("Returning result:", result);
           return NextResponse.json({ result });
         } else {
@@ -46,7 +64,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Handle tool calls - message.type: "tool-calls"
+    // Handle tool calls - VAPI uses message.type: "tool-calls" (alternative format)
     if (body.message && body.message.type === "tool-calls") {
       const { toolCallList } = body.message;
       console.log("Processing tool calls:", toolCallList);
@@ -85,8 +103,28 @@ export async function POST(req: NextRequest) {
             console.log("Search response:", searchData);
 
             if (searchData.success) {
-              const result =
-                searchData.context || "No relevant information found";
+              let result = searchData.context || "";
+
+              // If context is empty but we have results, construct response from results
+              if (
+                !result &&
+                searchData.results &&
+                searchData.results.length > 0
+              ) {
+                // Get the top 2-3 most relevant results
+                const topResults = searchData.results
+                  .filter((r: any) => r.score > 0.4) // Only use results with good relevance scores
+                  .slice(0, 3)
+                  .map((r: any) => r.text)
+                  .join("\n\n");
+
+                result = topResults || "No relevant information found";
+              }
+
+              if (!result) {
+                result = "No relevant information found";
+              }
+
               console.log("Returning result for toolCallId:", toolCall.id);
               results.push({
                 toolCallId: toolCall.id,
