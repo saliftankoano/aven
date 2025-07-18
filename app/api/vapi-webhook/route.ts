@@ -5,15 +5,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("Received VAPI webhook:", body);
 
-    // Handle function calls
-    if (body.type === "function_call") {
-      const { functionCall } = body;
+    if (body.message && body.message.type === "function-call") {
+      const { functionCall } = body.message;
 
       if (functionCall.name === "knowledge_search") {
         const { query } = functionCall.parameters;
 
         const searchResponse = await fetch(
-          ` ${process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_BASE_URL}/api/knowledge-search`,
+          `${
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000"
+              : process.env.NEXT_PUBLIC_BASE_URL
+          }/api/knowledge-search`,
           {
             method: "POST",
             headers: {
@@ -37,8 +40,13 @@ export async function POST(req: NextRequest) {
         }
       }
     }
+
+    // Handle other message types (status updates, etc.)
+    if (body.message) {
+      console.log(`Received ${body.message.type} event`);
+    }
+
     return NextResponse.json({
-      success: false,
       result: "I'm sorry, I don't know how to answer that question 🤷🏾‍♂️",
     });
   } catch (error) {
