@@ -22,8 +22,6 @@ const VapiWidget: React.FC<VapiWidgetProps> = ({
 
   useEffect(() => {
     const vapiInstance = new Vapi(apiKey);
-    console.log("apiKey", apiKey);
-    console.log("assistantId", assistantId);
     setVapi(vapiInstance);
 
     // Event listeners
