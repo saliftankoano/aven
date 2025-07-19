@@ -39,12 +39,17 @@ export async function processDoc(
     const docs = await textSplitter.createDocuments([markdownContent]);
     console.log("File split into ", docs.length, " chunks");
 
+    // Clean the path to keep only from "aven" onwards
+    const cleanPath = docPath.includes("aven")
+      ? docPath.substring(docPath.indexOf("aven"))
+      : docPath;
+
     // Create chunks with metadata
     const chunks: DocumentChunk[] = docs.map((doc, index) => ({
       id: `doc-${index}`,
       text: doc.pageContent,
       metadata: {
-        source: docPath,
+        source: cleanPath,
         chunkIndex: index,
         timestamp: Date.now(),
       },
