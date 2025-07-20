@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { AvenCard } from "./ui/AvenCard";
+import AvenCard3d from "./ui/AvenCard3d";
 
 export function HeroSection() {
   return (
@@ -100,7 +100,7 @@ export function HeroSection() {
 
           {/* Right Content - Credit Card Image */}
           <div className="flex justify-center lg:justify-end -mt-[40%]">
-            <AvenCard />
+            <AvenCard3d />
           </div>
         </div>
       </div>
