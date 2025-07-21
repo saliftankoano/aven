@@ -16,7 +16,7 @@ import { env } from "@/lib/env";
 
 export async function POST(request: Request): Promise<Response> {
   const calApiKey = env.CAL_API_KEY;
-  const eventTypeId = "2032276";
+  const eventTypeId = 2032276;
   const { name, email, phone, bookingReason, desiredSlot } =
     await request.json();
 
@@ -26,17 +26,21 @@ export async function POST(request: Request): Promise<Response> {
       headers: {
         Authorization: `Bearer ${calApiKey}`,
         "Content-Type": "application/json",
+        "cal-api-version": "2024-08-13",
       },
       body: JSON.stringify({
         start: desiredSlot,
         attendee: {
           name,
           email,
-          phoneNumber: phone,
           timeZone: "America/New_York",
+          phoneNumber: phone,
+          language: "en",
         },
-        bookingFieldsResponses: { booking_reason: bookingReason },
-        eventTypeId,
+        bookingFieldsResponses: {
+          booking_reason: bookingReason,
+        },
+        eventTypeId: eventTypeId,
       }),
     });
 
