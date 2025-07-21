@@ -11,4 +11,5 @@ export const env = {
   VAPI_ASSISTANT_ID: process.env.VAPI_ASSISTANT_ID,
   VAPI_TEST_SUITE_ID: process.env.VAPI_TEST_SUITE_ID,
   VAPI_PRIVATE_API_KEY: process.env.VAPI_PRIVATE_API_KEY,
+  CAL_API_KEY: process.env.CAL_API_KEY,
 };
