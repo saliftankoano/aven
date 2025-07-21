@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
           if (!result && searchData.results && searchData.results.length > 0) {
             // Get the top 2-3 most relevant results
             const topResults = searchData.results
-              .filter((r: SearchResult) => r.score > 0.3)
               .slice(0, 3)
               .map((r: SearchResult) => r.text)
               .join("\n\n");
