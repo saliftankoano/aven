@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "setup-kb": "tsx scripts/setup-knowledge-base.ts",
-    "push-tests": "tsx scripts/push-tests.ts"
+    "push-tests": "tsx scripts/push-tests.ts",
+    "free": "tsx scripts/free.ts",
+    "book": "tsx scripts/book.ts"
   },
   "dependencies": {
     "@pinecone-database/pinecone": "^6.1.1",
