@@ -13,7 +13,7 @@ const pinecone = new Pinecone({
 
 export async function POST(req: NextRequest) {
   try {
-    const { query, topK = 5 } = await req.json();
+    const { query, topK = 10 } = await req.json();
 
     if (!query) {
       return NextResponse.json({ error: "Query is required" }, { status: 400 });
@@ -41,10 +41,7 @@ export async function POST(req: NextRequest) {
         chunkIndex: match.metadata?.chunkIndex,
       })) || [];
 
-    const context = results
-      .filter((result) => result.score && result.score > 0.75)
-      .map((result) => result.text)
-      .join("\n\n");
+    const context = results.map((result) => result.text).join("\n\n");
     console.log(`Found ${results.length} relevant chunks`);
     console.log(`context: ${context}`);
     return NextResponse.json({
