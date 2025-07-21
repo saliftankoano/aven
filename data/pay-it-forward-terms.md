@@ -36,5 +36,3 @@ Sharing Limitations
 New cardholders may share the invite code with as many friends and family members as they wish. However, should any
 Recipients elect to share their bonuses with the cardholder, the cardholder is limited to receiving the apportioned amounts
 from ten Recipients per month. This offering is void where prohibited.
-
-1
