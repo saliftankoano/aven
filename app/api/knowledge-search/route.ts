@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       .map((result) => result.text)
       .join("\n\n");
     console.log(`Found ${results.length} relevant chunks`);
-
+    console.log(`context: ${context}`);
     return NextResponse.json({
       success: true,
       context,
