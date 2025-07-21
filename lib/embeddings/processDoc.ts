@@ -28,16 +28,16 @@ export async function processDoc(
     const markdownContent = fs.readFileSync(docPath, "utf8");
 
     console.log("Markdown content length:", markdownContent.length);
-    console.log("Beginning chunck splitting process ");
+    console.log("Beginning chunking splitting process");
 
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
-      separators: ["\n\n", "\n", " ", ""],
+      chunkSize: 1200,
+      chunkOverlap: 300,
+      separators: ["\n# ", "\n## ", "\n### ", "\n####", "\n\n"],
     });
 
     const docs = await textSplitter.createDocuments([markdownContent]);
-    console.log("File split into ", docs.length, " chunks");
+    console.log("File split into", docs.length, "chunks");
 
     // Clean the path to keep only from "aven" onwards
     const cleanPath = docPath.includes("aven")
@@ -54,6 +54,7 @@ export async function processDoc(
         timestamp: Date.now(),
       },
     }));
+
     // Create embeddings in batches
     console.log("Creating embeddings in batches");
     const embeddings = await createEmbeddingsBatch(chunks, 20);
@@ -76,7 +77,11 @@ export async function processDoc(
     for (let i = 0; i < vectors.length; i += batchSize) {
       const batch = vectors.slice(i, i + batchSize);
       await index.upsert(batch);
-      console.log(`Upserted batch ${i + 1} of ${vectors.length}`);
+      console.log(
+        `Upserted batch ${Math.floor(i / batchSize) + 1} of ${Math.ceil(
+          vectors.length / batchSize
+        )}`
+      );
     }
     console.log("Upsert complete");
 
